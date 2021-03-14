@@ -15,13 +15,19 @@ int main()
 
      do
      {
-          cout << " 1 - Pre Ordem" << endl
+          cout << "Exercicio 1" << endl
+               << " 1 - Pre Ordem" << endl
                << " 2 - In Ordem" << endl
                << " 3 - Pos Ordem" << endl
+               << "Exercicio 2" << endl
                << " 4 - Marcadores" << endl
+               << "Exercicio 3" << endl
                << " 5 - Total de Nos" << endl
+               << "Exercicio 5" << endl
                << " 6 - Altura" << endl
-               << " 7 - Arvore Espelho (exercicio 6)" << endl
+               // EXERCICIO 6: GERAR ARVORE ESPELHO(TROCAR O NO DA DIREITA COM DA ESQUERDA E VICE-VERSA, ATE O NO MAIS BAIXO)
+               << "Exercicio 6" << endl
+               << " 7 - Arvore Espelho" << endl
                << " 0 - Encerrar" << endl
                << " Escolha uma opcao: ";
 

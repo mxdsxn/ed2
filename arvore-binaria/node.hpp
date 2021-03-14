@@ -44,10 +44,16 @@ public:
 
   ~Node()
   {
-    cout << "deleting left Node";
-    delete this->leftNode;
-    cout << "deleting right Node";
-    delete this->rightNode;
+    if (this)
+    {
+      cout << "deleting: " << this->info << endl;
+
+      cout << "deleting left Node:" << this->info << endl;
+      delete this->leftNode;
+
+      cout << "deleting right Node:" << this->info << endl;
+      delete this->rightNode;
+    }
   }
 
   void setInfo(TypeInfo newInfo)
@@ -183,6 +189,7 @@ public:
     return level;
   }
 
+  // EXERCICIO 6: GERAR ARVORE ESPELHO(TROCAR O NO DA DIREITA COM DA ESQUERDA E VICE-VERSA, ATE O NO MAIS BAIXO)
   Node *mirrorTree()
   {
     Node *nodeMirror = nullptr;
