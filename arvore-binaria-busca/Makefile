@@ -1,5 +1,9 @@
 OUTPUT = main
 
+all: 
+	make build
+	make run
+
 build:
 	g++ ./*cpp -o $(OUTPUT)
 
