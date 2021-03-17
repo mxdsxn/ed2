@@ -14,20 +14,30 @@ void imprimir_in_ordem(Arvore *a)
   }
 }
 
-long int min(Arvore *tree)
+void imprime_decrescente(Arvore *arv)
+{
+  if (arv != NULL)
+  {
+    imprime_decrescente(arv->dir);
+    cout << arv->info << ", ";
+    imprime_decrescente(arv->esq);
+  }
+}
+
+long int min(Arvore *arv)
 {
   long int minimo = NULL, minLeft = NULL, minRight = NULL;
 
-  if (tree != NULL)
+  if (arv != NULL)
   {
-    minimo = tree->info;
-    if (tree->esq != NULL)
+    minimo = arv->info;
+    if (arv->esq != NULL)
     {
-      minLeft = min(tree->esq);
+      minLeft = min(arv->esq);
     }
-    if (tree->dir != NULL)
+    if (arv->dir != NULL)
     {
-      minRight = min(tree->dir);
+      minRight = min(arv->dir);
     }
   }
 
@@ -49,20 +59,20 @@ long int min(Arvore *tree)
   return minimo;
 }
 
-long int max(Arvore *tree)
+long int max(Arvore *arv)
 {
   long int maximo = NULL, maxLeft = NULL, maxRight = NULL;
 
-  if (tree != NULL)
+  if (arv != NULL)
   {
-    maximo = tree->info;
-    if (tree->esq != NULL)
+    maximo = arv->info;
+    if (arv->esq != NULL)
     {
-      maxLeft = max(tree->esq);
+      maxLeft = max(arv->esq);
     }
-    if (tree->dir != NULL)
+    if (arv->dir != NULL)
     {
-      maxRight = max(tree->dir);
+      maxRight = max(arv->dir);
     }
   }
 
@@ -161,20 +171,46 @@ void exer3()
   cout << "buscando max: " << max(arv) << endl;
 }
 
+void exer4()
+{
+
+  Arvore *arv = NULL;
+
+  //Funcao recursiva, imprimir descrescente
+  cout << "Preenchendo arvore binaria de busca..."
+       << endl
+       << endl;
+
+  int test[10] = {52, 31, 63, 42, 71, 11, 24, 85, 90, 1};
+
+  for (long int i = 0; i < 10; i++)
+  {
+    arv = inserir(arv, test[i]);
+  }
+
+  cout << "Descrescente via funcao recursiva: " << endl;
+  imprime_decrescente(arv);
+}
+
 int main()
 {
-  cout << "Exercicio 1:" << endl;
-  exer1();
-  cout << endl
-       << endl;
+  // cout << "Exercicio 1:" << endl;
+  // exer1();
+  // cout << endl
+  //      << endl;
 
-  cout << "Exercicio 2:" << endl;
-  exer2();
-  cout << endl
-       << endl;
+  // cout << "Exercicio 2:" << endl;
+  // exer2();
+  // cout << endl
+  //      << endl;
 
-  cout << "Exercicio 3:" << endl;
-  exer3();
+  // cout << "Exercicio 3:" << endl;
+  // exer3();
+  // cout << endl
+  //      << endl;
+
+  cout << "Exercicio 4:" << endl;
+  exer4();
   cout << endl
        << endl;
 }
