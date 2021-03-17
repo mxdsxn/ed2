@@ -4,6 +4,18 @@
 
 using namespace std;
 
+void mark(Arvore *arv)
+{
+  cout << "<";
+  if (arv)
+  {
+    cout << arv->info;
+    mark(arv->esq);
+    mark(arv->dir);
+  }
+  cout << ">";
+}
+
 void imprimir_in_ordem(Arvore *a)
 {
   if (a != NULL)
@@ -21,6 +33,22 @@ void imprime_decrescente(Arvore *arv)
     imprime_decrescente(arv->dir);
     cout << arv->info << ", ";
     imprime_decrescente(arv->esq);
+  }
+}
+
+void ordena_arvore(Arvore *arv)
+{
+  if (arv != NULL)
+  {
+    Arvore *tmp;
+    if (arv->esq->info > arv->dir->info)
+    {
+      tmp = arv->dir;
+      arv->dir = arv->esq;
+      arv->esq = tmp;
+    }
+    ordena_arvore(arv->dir);
+    ordena_arvore(arv->esq);
   }
 }
 
@@ -192,6 +220,33 @@ void exer4()
   imprime_decrescente(arv);
 }
 
+void exer5()
+{
+
+  //Funcao que ordena uma arvore (esquerda = menor, direita = maior)
+  cout << "Preenchendo arvore binaria..."
+       << endl
+       << endl;
+
+  Arvore *arv = constroi_arv(10,
+                             constroi_arv(13,
+                                          NULL,
+                                          constroi_arv(5, NULL, NULL)),
+                             constroi_arv(3,
+                                          constroi_arv(18, NULL, NULL),
+                                          constroi_arv(4, NULL, NULL)));
+
+  cout << "Ordena arvore binaria via funcao recursiva: " << endl;
+  mark(arv);
+
+  cout << endl
+       << endl;
+
+  ordena_arvore(arv);
+
+  mark(arv);
+}
+
 int main()
 {
   // cout << "Exercicio 1:" << endl;
@@ -209,8 +264,13 @@ int main()
   // cout << endl
   //      << endl;
 
-  cout << "Exercicio 4:" << endl;
-  exer4();
+  // cout << "Exercicio 4:" << endl;
+  // exer4();
+  // cout << endl
+  //      << endl;
+
+  cout << "Exercicio 5:" << endl;
+  exer5();
   cout << endl
        << endl;
 }

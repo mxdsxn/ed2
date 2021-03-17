@@ -84,3 +84,12 @@ Arvore *remover(Arvore *a, long int v)
     return a;
   }
 }
+
+Arvore *constroi_arv(long int c, Arvore *e, Arvore *d)
+{
+  Arvore *no = (Arvore *)malloc(sizeof(Arvore));
+  no->info = c;
+  no->esq = e;
+  no->dir = d;
+  return no;
+}

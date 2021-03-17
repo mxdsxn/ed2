@@ -13,3 +13,5 @@ long int buscar(Arvore *a, long int v);
 Arvore *inserir(Arvore *a, long int v);
 
 Arvore *remover(Arvore *a, long int v);
+
+Arvore *constroi_arv(long int c, Arvore *e, Arvore *d);
