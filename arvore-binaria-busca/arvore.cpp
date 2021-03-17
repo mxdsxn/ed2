@@ -1,6 +1,6 @@
 #include "arvore.hpp"
 
-int buscar(Arvore *a, int v)
+long int buscar(Arvore *a, long int v)
 {
   if (a == NULL)
   {
@@ -20,7 +20,7 @@ int buscar(Arvore *a, int v)
   }
 }
 
-Arvore *inserir(Arvore *a, int v)
+Arvore *inserir(Arvore *a, long int v)
 {
   if (a == NULL)
   {
@@ -40,7 +40,7 @@ Arvore *inserir(Arvore *a, int v)
   return a;
 }
 
-Arvore *remover(Arvore *a, int v)
+Arvore *remover(Arvore *a, long int v)
 {
   if (a == NULL)
   {

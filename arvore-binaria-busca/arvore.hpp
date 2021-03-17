@@ -3,13 +3,13 @@
 
 typedef struct arvore
 {
-  int info;
+  long int info;
   struct arvore *esq;
   struct arvore *dir;
 } Arvore;
 
-int buscar(Arvore *a, int v);
+long int buscar(Arvore *a, long int v);
 
-Arvore *inserir(Arvore *a, int v);
+Arvore *inserir(Arvore *a, long int v);
 
-Arvore *remover(Arvore *a, int v);
+Arvore *remover(Arvore *a, long int v);
