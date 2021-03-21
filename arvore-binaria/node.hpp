@@ -141,7 +141,7 @@ public:
     }
   }
 
-  bool findInfo(TypeInfo infoToFind)
+  bool belong(TypeInfo infoToFind)
   {
     if (this)
     {
@@ -149,8 +149,8 @@ public:
       {
         return true;
       }
-      bool infoInLeftNode = this->leftNode->findInfo(infoToFind);
-      bool infoInRightNode = this->rightNode->findInfo(infoToFind);
+      bool infoInLeftNode = this->leftNode->belong(infoToFind);
+      bool infoInRightNode = this->rightNode->belong(infoToFind);
 
       return (infoInLeftNode || infoInRightNode);
     }

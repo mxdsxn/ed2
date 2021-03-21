@@ -22,8 +22,7 @@ int main()
           tree = tree->insertNode(teste[i]);
      }
 
-     tree->mark();
-     // delete tree;
+     delete tree;
 
      return 0;
 }

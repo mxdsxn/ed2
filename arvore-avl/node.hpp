@@ -141,7 +141,7 @@ public:
     }
   }
 
-  bool findInfo(TypeInfo infoToFind)
+  bool belong(TypeInfo infoToFind)
   {
     if (this)
     {
@@ -149,8 +149,8 @@ public:
       {
         return true;
       }
-      bool infoInLeftNode = this->leftNode->findInfo(infoToFind);
-      bool infoInRightNode = this->rightNode->findInfo(infoToFind);
+      bool infoInLeftNode = this->leftNode->belong(infoToFind);
+      bool infoInRightNode = this->rightNode->belong(infoToFind);
 
       return (infoInLeftNode || infoInRightNode);
     }
@@ -237,5 +237,28 @@ public:
 
   Node *removeNode(TypeInfo removeInfo)
   {
+  }
+
+  TypeInfo find(TypeInfo info)
+  {
+    if (this == nullptr)
+    {
+      return NULL;
+    }
+    else if (info == this->info)
+    {
+      return this->info;
+    }
+
+    if (info < this->info)
+    {
+      return (this->leftNode)->find(info);
+    }
+    else if (info > this->info)
+    {
+      return (this->rightNode)->find(info);
+    }
+
+    return NULL;
   }
 };
