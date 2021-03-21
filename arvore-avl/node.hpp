@@ -170,23 +170,28 @@ public:
 
   long int getLevel(bool root = true)
   {
-    long int level = (root ? 0 : 1);
-    long int leftLevel = 0, rightLevel = 0;
+    int level = (root ? 0 : 1);
+    int leftLevel = 0, rightLevel = 0;
 
     if (this)
     {
       if (this->rightNode || this->leftNode)
       {
-        if (this->leftNode)
-          leftLevel = this->leftNode->getLevel(false);
-        if (this->rightNode)
-          rightLevel = this->rightNode->getLevel(false);
+        leftLevel = this->leftNode->getLevel(false);
+        rightLevel = this->rightNode->getLevel(false);
+
+        cout << level << endl;
+        cout << rightLevel << endl;
+        cout << leftLevel << endl;
 
         level += (leftLevel >= rightLevel ? leftLevel : rightLevel);
-      }
-    }
 
-    return level;
+        cout << level << endl;
+      }
+
+      return level;
+    }
+    return -1;
   }
 
   Node *mirrorTree()
