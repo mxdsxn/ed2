@@ -8,6 +8,7 @@ class Node
 {
 private:
   TypeInfo info;
+  long int level = -1;
   Node *leftNode = nullptr, *rightNode = nullptr;
 
   void mirror()

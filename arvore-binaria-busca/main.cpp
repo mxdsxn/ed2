@@ -249,25 +249,25 @@ void exer5()
 
 int main()
 {
-  // cout << "Exercicio 1:" << endl;
-  // exer1();
-  // cout << endl
-  //      << endl;
+  cout << "Exercicio 1:" << endl;
+  exer1();
+  cout << endl
+       << endl;
 
-  // cout << "Exercicio 2:" << endl;
-  // exer2();
-  // cout << endl
-  //      << endl;
+  cout << "Exercicio 2:" << endl;
+  exer2();
+  cout << endl
+       << endl;
 
-  // cout << "Exercicio 3:" << endl;
-  // exer3();
-  // cout << endl
-  //      << endl;
+  cout << "Exercicio 3:" << endl;
+  exer3();
+  cout << endl
+       << endl;
 
-  // cout << "Exercicio 4:" << endl;
-  // exer4();
-  // cout << endl
-  //      << endl;
+  cout << "Exercicio 4:" << endl;
+  exer4();
+  cout << endl
+       << endl;
 
   cout << "Exercicio 5:" << endl;
   exer5();
