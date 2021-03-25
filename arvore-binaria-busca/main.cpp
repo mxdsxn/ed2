@@ -41,11 +41,30 @@ void ordena_arvore(Arvore *arv)
   if (arv != NULL)
   {
     Arvore *tmp;
-    if (arv->esq->info > arv->dir->info)
+    if (arv->esq != NULL && arv->dir != NULL)
     {
-      tmp = arv->dir;
-      arv->dir = arv->esq;
-      arv->esq = tmp;
+      if (arv->esq->info > arv->dir->info)
+      {
+        tmp = arv->dir;
+        arv->dir = arv->esq;
+        arv->esq = tmp;
+      }
+    }
+    else if (arv->dir != NULL)
+    {
+      if (arv->dir->info < arv->info)
+      {
+        arv->esq = arv->dir;
+        arv->dir = NULL;
+      }
+    }
+    else if (arv->esq != NULL)
+    {
+      if (arv->esq->info > arv->info)
+      {
+        arv->dir = arv->esq;
+        arv->esq = NULL;
+      }
     }
     ordena_arvore(arv->dir);
     ordena_arvore(arv->esq);
@@ -236,7 +255,7 @@ void exer5()
                                           constroi_arv(18, NULL, NULL),
                                           constroi_arv(4, NULL, NULL)));
 
-  cout << "Ordena arvore binaria via funcao recursiva: " << endl;
+  cout << "Ordena arvore binaria, transformando em binaria de busca via funcao recursiva: " << endl;
   mark(arv);
 
   cout << endl
