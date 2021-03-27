@@ -77,19 +77,68 @@ public:
     {
       Node *aux = this->esquerda->inserir(novaInformacao);
       this->setEsquerda(aux);
-      resultado = this->verificaFatorBalanceamentoInsercaoEsquerda();
+      resultado = this->verificaFatorBalanceamentoRotacaoDireita();
     }
     else
     {
       Node *aux = this->direita->inserir(novaInformacao);
       this->setDireita(aux);
-      resultado = this->verificaFatorBalanceamentoInsercaoDireita();
+      resultado = this->verificaFatorBalanceamentoRotacaoEsquerda();
     }
     return resultado;
   }
 
   Node *remover(T removeInfo)
   {
+    Node *resultado = this;
+
+    if (this)
+    {
+      if (removeInfo < resultado->info)
+      {
+        resultado->setEsquerda(resultado->esquerda->remover(removeInfo));
+        resultado = resultado->verificaFatorBalanceamentoRotacaoEsquerda();
+      }
+      else if (removeInfo > resultado->info)
+      {
+        resultado->setDireita(resultado->direita->remover(removeInfo));
+        resultado = resultado->verificaFatorBalanceamentoRotacaoDireita();
+      }
+      else
+      {
+        if (resultado->esquerda == nullptr && resultado->direita == nullptr)
+        {
+          delete resultado;
+          resultado = nullptr;
+        }
+        else if (resultado->esquerda == nullptr)
+        {
+          Node *tmp = resultado->direita;
+          delete resultado;
+          resultado = tmp;
+        }
+        else if (resultado->direita == nullptr)
+        {
+          Node *tmp = resultado->esquerda;
+          delete resultado;
+          resultado = tmp;
+        }
+        else
+        {
+
+          Node *tmp = resultado->esquerda;
+          while (tmp->direita != nullptr)
+          {
+            tmp = tmp->direita;
+          }
+          resultado->info = tmp->info;
+          tmp->info = removeInfo;
+          resultado->setEsquerda(resultado->esquerda->remover(removeInfo));
+        }
+      }
+    }
+
+    return resultado;
   }
 
   void marcadores(long int nivel = 0)
@@ -105,6 +154,7 @@ public:
       cout << "Chave: " << this->info
            << " - Fator de balanceamento: " << this->fatorBalanceamento()
            << " - Altura: " << this->getAltura()
+           << " - Nivel: " << nivel
            << endl;
 
       this->esquerda->marcadores(nivel + 1);
@@ -225,7 +275,7 @@ public:
     return (this->direita->getAltura()) - (this->esquerda->getAltura());
   }
 
-  Node *verificaFatorBalanceamentoInsercaoEsquerda()
+  Node *verificaFatorBalanceamentoRotacaoDireita()
   {
     long int fb = this->fatorBalanceamento();
     long int fbEsquerda = this->esquerda->fatorBalanceamento();
@@ -247,7 +297,7 @@ public:
     return resultado;
   }
 
-  Node *verificaFatorBalanceamentoInsercaoDireita()
+  Node *verificaFatorBalanceamentoRotacaoEsquerda()
   {
     long int fb = this->fatorBalanceamento();
     long int fbDireita = this->direita->fatorBalanceamento();
