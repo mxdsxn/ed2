@@ -92,9 +92,9 @@ public:
   {
   }
 
-  void marcadores(long int espaco = 0)
+  void marcadores(long int nivel = 0)
   {
-    for (long int i = 0; i < espaco; i++)
+    for (long int i = 0; i < nivel; i++)
     {
       cout << "------|";
     }
@@ -104,12 +104,13 @@ public:
     {
       cout << "Chave: " << this->info
            << " - Fator de balanceamento: " << this->fatorBalanceamento()
+           << " - Altura: " << this->getAltura()
            << endl;
 
-      this->esquerda->marcadores(espaco + 1);
-      this->direita->marcadores(espaco + 1);
+      this->esquerda->marcadores(nivel + 1);
+      this->direita->marcadores(nivel + 1);
 
-      for (long int i = 0; i < espaco; i++)
+      for (long int i = 0; i < nivel; i++)
       {
         cout << "------|";
       }
@@ -239,8 +240,7 @@ public:
       }
       else
       {
-        resultado->esquerda = resultado->esquerda->rotacaoEsquerda();
-        resultado = resultado->rotacaoDireita();
+        resultado = resultado->rotacaoDuplaDireita();
       }
     }
 
@@ -262,8 +262,7 @@ public:
       }
       else
       {
-        resultado->direita = resultado->direita->rotacaoDireita();
-        resultado = resultado->rotacaoEsquerda();
+        resultado = resultado->rotacaoDuplaEsquerda();
       }
     }
 
@@ -290,6 +289,24 @@ public:
     root->setDireita(direitaRoot);
 
     return root;
+  }
+
+  Node *rotacaoDuplaEsquerda()
+  {
+    Node *resultado = this;
+    resultado->setDireita(resultado->direita->rotacaoDireita());
+    resultado = resultado->rotacaoEsquerda();
+
+    return resultado;
+  }
+
+  Node *rotacaoDuplaDireita()
+  {
+    Node *resultado = this;
+    resultado->setEsquerda(resultado->esquerda->rotacaoEsquerda());
+    resultado = resultado->rotacaoDireita();
+
+    return resultado;
   }
 
   Node *arvoreEspelho()
