@@ -19,10 +19,10 @@ int main()
 
      for (int i = 0; i < 10; i++)
      {
-          tree = tree->insertNode(teste[i]);
+          tree = tree->inserir(teste[i]);
      }
 
-     delete tree;
+     // delete tree;
 
      return 0;
 }

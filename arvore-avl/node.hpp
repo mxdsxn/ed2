@@ -3,249 +3,165 @@
 
 using namespace std;
 
-template <typename TypeInfo>
+template <typename T>
 class Node
 {
-private:
-  TypeInfo info;
-  long int level = -1;
-  Node *leftNode = nullptr, *rightNode = nullptr;
-
-  void mirror()
-  {
-    if (this)
-    {
-      Node *tmpLeftNode = this->leftNode;
-      Node *tmpRightNode = this->rightNode;
-
-      this->setLeftNode(tmpLeftNode->mirrorTree());
-      this->setRightNode(tmpRightNode->mirrorTree());
-    }
-  }
-
 public:
-  Node(TypeInfo newInfo, Node *newLeftNode, Node *newRightNode)
+  T info;
+  long int altura = 0;
+  Node *esquerda = nullptr, *direita = nullptr;
+
+  Node(T novaInformacao, Node *novoEsquerda, Node *novoDireita)
   {
-    setInfo(newInfo);
-    setLeftNode(newLeftNode);
-    setRightNode(newRightNode);
+    setInfo(novaInformacao);
+    setEsquerda(novoEsquerda);
+    setDireita(novoDireita);
   }
 
-  Node(TypeInfo newInfo)
+  Node(T novaInformacao)
   {
-    setInfo(newInfo);
-  }
-
-  Node(Node *otherNode)
-  {
-    setInfo(otherNode->getInfo());
-    setLeftNode(otherNode->getLeftNode());
-    setRightNode(otherNode->getRightNode());
+    setInfo(novaInformacao);
   }
 
   ~Node()
   {
     if (this)
     {
-      cout << "deleting: " << this->info << endl;
+      cout << "deletando: " << this->info << endl;
 
-      cout << "deleting left Node:" << this->info << endl;
-      delete this->leftNode;
+      cout << "deletando no esquerdo: " << this->info << endl;
+      delete this->esquerda;
 
-      cout << "deleting right Node:" << this->info << endl;
-      delete this->rightNode;
+      cout << "deletando no direito: " << this->info << endl;
+      delete this->direita;
     }
   }
 
-  void setInfo(TypeInfo newInfo)
+  void setInfo(T novaInformacao)
   {
-    this->info = newInfo;
+    this->info = novaInformacao;
   }
 
-  void setLeftNode(Node *newLeftNode)
+  void setEsquerda(Node *novoEsquerda)
   {
-    this->leftNode = newLeftNode;
+    this->esquerda = novoEsquerda;
+    this->atualizaAltura();
   }
 
-  void setLeftNode(TypeInfo newInfo)
+  void setEsquerda(T novaInformacao)
   {
-    this->setLeftNode(new Node(newInfo));
+    this->setEsquerda(new Node(novaInformacao));
   }
 
-  void setRightNode(Node *newRightNode)
+  void setDireita(Node *novoDireita)
   {
-    this->rightNode = newRightNode;
+    this->direita = novoDireita;
+    this->atualizaAltura();
   }
 
-  void setRightNode(TypeInfo newInfo)
+  void setDireita(T novaInformacao)
   {
-    this->setRightNode(new Node(newInfo));
+    this->setDireita(new Node(novaInformacao));
   }
 
-  TypeInfo getInfo()
+  Node *inserir(T novaInformacao)
   {
-    TypeInfo result = this->info;
-    return result;
+    Node *resultado = nullptr;
+    if (this == nullptr)
+    {
+      Node *resultado = new Node(novaInformacao);
+      return resultado;
+    }
+
+    if (novaInformacao < this->info)
+    {
+      Node *aux = this->esquerda->inserir(novaInformacao);
+      this->setEsquerda(aux);
+      resultado = this->verificaFatorBalanceamentoInsercaoEsquerda();
+    }
+    else
+    {
+      Node *aux = this->direita->inserir(novaInformacao);
+      this->setDireita(aux);
+      resultado = this->verificaFatorBalanceamentoInsercaoDireito();
+    }
+    return resultado;
   }
 
-  Node *getLeftNode()
+  Node *remover(T removeInfo)
   {
-    Node *result = this->leftNode;
-    return result;
   }
 
-  Node *getRightNode()
+  void marcadores(long int espaco = 0)
   {
-    Node *result = this->rightNode;
-    return result;
-  }
-
-  void mark()
-  {
+    for (long int i = 0; i < espaco; i++)
+    {
+      cout << " ";
+    }
     cout << "<";
+
     if (this)
     {
-      cout << this->info;
-      this->leftNode->mark();
-      this->rightNode->mark();
+      cout << this->info << endl;
+
+      this->esquerda->marcadores(espaco + 1);
+      this->direita->marcadores(espaco + 1);
+
+      for (long int i = 0; i < espaco; i++)
+      {
+        cout << " ";
+      }
     }
-    cout << ">";
+    cout << ">" << endl;
   }
 
-  void preOrder()
+  void preOrdem()
   {
     if (this)
     {
       cout << this->info;
-      this->leftNode->preOrder();
-      this->rightNode->preOrder();
+      this->esquerda->preOrdem();
+      this->direita->preOrdem();
     }
   }
 
-  void inOrder()
+  void inOrdem()
   {
     if (this)
     {
-      this->leftNode->inOrder();
+      this->esquerda->inOrdem();
       cout << this->info;
-      this->rightNode->inOrder();
+      this->direita->inOrdem();
     }
   }
 
-  void posOrder()
+  void posOrdem()
   {
     if (this)
     {
-      this->leftNode->posOrder();
-      this->rightNode->posOrder();
+      this->esquerda->posOrdem();
+      this->direita->posOrdem();
       cout << this->info;
     }
   }
 
-  bool belong(TypeInfo infoToFind)
+  bool pertence(T informacaoParaEncontrar)
   {
     if (this)
     {
-      if (this->info == infoToFind)
+      if (this->info == informacaoParaEncontrar)
       {
         return true;
       }
-      bool infoInLeftNode = this->leftNode->belong(infoToFind);
-      bool infoInRightNode = this->rightNode->belong(infoToFind);
+      bool infoEsquerdaPertence = this->esquerda->pertence(informacaoParaEncontrar);
+      bool infoDireitaPertence = this->direita->pertence(informacaoParaEncontrar);
 
-      return (infoInLeftNode || infoInRightNode);
+      return (infoEsquerdaPertence || infoDireitaPertence);
     }
     return false;
   }
 
-  long int totalNode()
-  {
-    if (this)
-    {
-      long int totalLeft = this->leftNode->totalNode();
-      long int totalRight = this->rightNode->totalNode();
-      return (1 + totalLeft + totalRight);
-    }
-    return 0;
-  }
-
-  long int getLevel(bool root = true)
-  {
-    int level = (root ? 0 : 1);
-    int leftLevel = 0, rightLevel = 0;
-
-    if (this)
-    {
-      if (this->rightNode || this->leftNode)
-      {
-        leftLevel = this->leftNode->getLevel(false);
-        rightLevel = this->rightNode->getLevel(false);
-
-        cout << level << endl;
-        cout << rightLevel << endl;
-        cout << leftLevel << endl;
-
-        level += (leftLevel >= rightLevel ? leftLevel : rightLevel);
-
-        cout << level << endl;
-      }
-
-      return level;
-    }
-    return -1;
-  }
-
-  Node *mirrorTree()
-  {
-    Node *nodeMirror = nullptr;
-    if (this)
-    {
-      nodeMirror = new Node(this);
-
-      nodeMirror->invert();
-
-      nodeMirror->mirror();
-    }
-    return nodeMirror;
-  }
-
-  void invert()
-  {
-    if (this)
-    {
-      Node *tmpNode = this->leftNode;
-
-      this->setLeftNode(this->rightNode);
-      this->setRightNode(tmpNode);
-    }
-  }
-
-  Node *insertNode(TypeInfo newInfo)
-  {
-    if (this == nullptr)
-    {
-      Node *result = new Node(newInfo);
-      return result;
-    }
-
-    if (newInfo < this->getInfo())
-    {
-      Node *result = this->getLeftNode()->insertNode(newInfo);
-      this->setLeftNode(result);
-    }
-    else
-    {
-      Node *result = this->getRightNode()->insertNode(newInfo);
-      this->setRightNode(result);
-    }
-    return this;
-  }
-
-  Node *removeNode(TypeInfo removeInfo)
-  {
-  }
-
-  TypeInfo find(TypeInfo info)
+  T buscar(T info)
   {
     if (this == nullptr)
     {
@@ -258,13 +174,140 @@ public:
 
     if (info < this->info)
     {
-      return (this->leftNode)->find(info);
+      return (this->esquerda)->buscar(info);
     }
     else if (info > this->info)
     {
-      return (this->rightNode)->find(info);
+      return (this->direita)->buscar(info);
     }
 
     return NULL;
+  }
+
+  long int totalElementos()
+  {
+    if (this)
+    {
+      long int totalEsquerda = this->esquerda->totalElementos();
+      long int totalDireita = this->direita->totalElementos();
+      return (1 + totalEsquerda + totalDireita);
+    }
+    return 0;
+  }
+
+  long int getAltura(bool raiz = true)
+  {
+    if (this)
+    {
+      return this->altura
+    }
+    return -1;
+  }
+
+  void atualizaAltura()
+  {
+    long int alturaEsquerda = 0, alturaDireita = 0;
+
+    alturaEsquerda = this->esquerda->getAltura();
+    alturaDireita = this->direita->getAltura();
+
+    this->altura = (alturaDireita > alturaEsquerda
+                        ? alturaDireita
+                        : alturaEsquerda) +
+                   1;
+  }
+
+  long int fatorBalanceamento()
+  {
+    return (this->direta->getAltura()) - (this->esquerda->getAltura());
+  }
+
+  Node *verificaFatorBalanceamentoInsercaoEsquerda()
+  {
+    long int fb = this->fatorBalanceamento();
+    long int fbEsquerda = this->esquerda->fatorBalanceamento();
+
+    Node *resultado = this;
+
+    if (fb == -2)
+    {
+      if (fbEsquerda <= 0)
+      {
+        /*rotacao_para_direita*/
+      }
+      else
+      {
+        /*rotacao_dupla_direta*/
+      }
+    }
+
+    return resultado;
+  }
+
+  Node *verificaFatorBalanceamentoInsercaoDireita()
+  {
+    long int fb = this->fatorBalanceamento();
+    long int fbDireita = this->direita->fatorBalanceamento();
+
+    Node *resultado = this;
+
+    if (fb == +2)
+    {
+      if (fbDireita >= 0)
+      {
+        /*rotacao_para_esquerda*/
+      }
+      else
+      {
+        /*rotacao_dupla_esquerda*/
+      }
+    }
+
+    return resultado;
+  }
+
+  Node *arvoreEspelho()
+  {
+    Node *noEspelhado = nullptr;
+    if (this)
+    {
+      noEspelhado = new Node(this);
+
+      noEspelhado->inverter();
+
+      noEspelhado->espelhar();
+    }
+    return noEspelhado;
+  }
+
+  void inverter()
+  {
+    if (this)
+    {
+      Node *tmpNode = this->esquerda;
+
+      this->setEsquerda(this->direita);
+      this->setDireita(tmpNode);
+    }
+  }
+
+private:
+  Node(Node *outroNo)
+  {
+    setInfo(outroNo->info);
+    setEsquerda(outroNo->esquerda);
+    setDireita(outroNo->direita);
+  }
+
+  void espelhar()
+  {
+    if (this)
+    {
+      Node *tmpEsq = this->esquerda;
+      Node *tmpDir = this->direita;
+
+      this->setEsquerda(tmpEsq->arvoreEspelho());
+      this->setDireita(tmpDir->arvoreEspelho());
+    }
   }
 };
