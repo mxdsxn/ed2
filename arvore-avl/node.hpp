@@ -83,7 +83,7 @@ public:
     {
       Node *aux = this->direita->inserir(novaInformacao);
       this->setDireita(aux);
-      resultado = this->verificaFatorBalanceamentoInsercaoDireito();
+      resultado = this->verificaFatorBalanceamentoInsercaoDireita();
     }
     return resultado;
   }
@@ -96,20 +96,22 @@ public:
   {
     for (long int i = 0; i < espaco; i++)
     {
-      cout << " ";
+      cout << "------|";
     }
     cout << "<";
 
     if (this)
     {
-      cout << this->info << endl;
+      cout << "Chave: " << this->info
+           << " - Fator de balanceamento: " << this->fatorBalanceamento()
+           << endl;
 
       this->esquerda->marcadores(espaco + 1);
       this->direita->marcadores(espaco + 1);
 
       for (long int i = 0; i < espaco; i++)
       {
-        cout << " ";
+        cout << "------|";
       }
     }
     cout << ">" << endl;
@@ -199,7 +201,7 @@ public:
   {
     if (this)
     {
-      return this->altura
+      return this->altura;
     }
     return -1;
   }
@@ -219,7 +221,7 @@ public:
 
   long int fatorBalanceamento()
   {
-    return (this->direta->getAltura()) - (this->esquerda->getAltura());
+    return (this->direita->getAltura()) - (this->esquerda->getAltura());
   }
 
   Node *verificaFatorBalanceamentoInsercaoEsquerda()
@@ -233,11 +235,12 @@ public:
     {
       if (fbEsquerda <= 0)
       {
-        /*rotacao_para_direita*/
+        resultado = resultado->rotacaoDireita();
       }
       else
       {
-        /*rotacao_dupla_direta*/
+        resultado->esquerda = resultado->esquerda->rotacaoEsquerda();
+        resultado = resultado->rotacaoDireita();
       }
     }
 
@@ -255,15 +258,38 @@ public:
     {
       if (fbDireita >= 0)
       {
-        /*rotacao_para_esquerda*/
+        resultado = resultado->rotacaoEsquerda();
       }
       else
       {
-        /*rotacao_dupla_esquerda*/
+        resultado->direita = resultado->direita->rotacaoDireita();
+        resultado = resultado->rotacaoEsquerda();
       }
     }
 
     return resultado;
+  }
+
+  Node *rotacaoEsquerda()
+  {
+    Node *root = this->direita;
+    this->setDireita(root->esquerda);
+
+    Node *esquerdaRoot = this;
+    root->setEsquerda(esquerdaRoot);
+
+    return root;
+  }
+
+  Node *rotacaoDireita()
+  {
+    Node *root = this->esquerda;
+    this->setEsquerda(root->direita);
+
+    Node *direitaRoot = this;
+    root->setDireita(direitaRoot);
+
+    return root;
   }
 
   Node *arvoreEspelho()
