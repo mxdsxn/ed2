@@ -37,6 +37,31 @@ void trocar(int *lista, int a, int b)
  lista[b] = aux;
 }
 
+void max_heapify(int *lista, int tam, int i)
+{
+ int filho1Esquerda = esquerda(i);
+ int filho2Direita = direita(i);
+ int maior = i;
+
+ if ((filho1Esquerda < tam) && (lista[filho1Esquerda] > lista[i]))
+ {
+  maior = filho1Esquerda;
+ }
+
+ if ((filho2Direita < tam) && (lista[filho2Direita] > lista[maior]))
+ {
+  maior = filho2Direita;
+ }
+
+ if (maior == i)
+ {
+  return;
+ }
+
+ trocar(lista, i, maior);
+ max_heapify(lista, tam, maior);
+}
+
 void minHeapify(int *lista, int tam, int i)
 {
  int filho1Esquerda = esquerda(i);
@@ -106,35 +131,48 @@ void minHeapInsert(int *lista, int chave, int *tam)
 
 int main()
 {
+ // =================== EXERCICIO 1
+ cout << "=================== EXERCICIO 1 ===================" << endl;
 
- int lista[] = {4, 1, 3, 2, 16, 9, 10, 14, 8, 7};
- int tam = sizeof(lista) / sizeof(lista[0]);
+ int listaExercicio1[] = {15, 13, 9, 5, 12, 8, 7, 4, 0, 6, 2, 1};
 
- cout << ">> Exercicio 2: ";
- imprimirLista(lista, tam);
- cout << endl;
+ int tamExercicio1 = sizeof(listaExercicio1) / sizeof(listaExercicio1[0]);
 
- buildMinHeap(lista, tam);
+ cout << ">> Lista Exercicio 1: ";
+ imprimirLista(listaExercicio1, tamExercicio1);
+
+ // Alterando valor da primeira chave para 1
+ heapDecreaseKey(listaExercicio1, 0, 1, tamExercicio1);
+
+ cout << ">> Heap decrease key: ";
+ imprimirLista(listaExercicio1, tamExercicio1);
+
+ // =================== EXERCICIO 2
+ cout << "=================== EXERCICIO 2 ===================" << endl;
+
+ int listaExercicio2[] = {4, 1, 3, 2, 16, 9, 10, 14, 8, 7};
+ int tamExercicio2 = sizeof(listaExercicio2) / sizeof(listaExercicio2[0]);
+
+ cout << ">> Lista Exercicio 2: ";
+ imprimirLista(listaExercicio2, tamExercicio2);
+
+ buildMinHeap(listaExercicio2, tamExercicio2);
  cout << ">> Build min heap: ";
- imprimirLista(lista, tam);
- cout << endl;
+ imprimirLista(listaExercicio2, tamExercicio2);
 
- heapExtractMin(lista, &tam);
+ heapExtractMin(listaExercicio2, &tamExercicio2);
  cout << ">> Heap extract min: ";
- imprimirLista(lista, tam);
- cout << endl;
+ imprimirLista(listaExercicio2, tamExercicio2);
 
  // Alterando valor da última chave de 16 para 1
- heapDecreaseKey(lista, tam - 1, 1, tam);
+ heapDecreaseKey(listaExercicio2, tamExercicio2 - 1, 1, tamExercicio2);
  cout << ">> Heap decrease key: ";
- imprimirLista(lista, tam);
- cout << endl;
+ imprimirLista(listaExercicio2, tamExercicio2);
 
  // Inserindo valor 0!
- minHeapInsert(lista, 0, &tam);
+ minHeapInsert(listaExercicio2, 0, &tamExercicio2);
  cout << ">> Min heap insert: ";
- imprimirLista(lista, tam);
- cout << endl;
+ imprimirLista(listaExercicio2, tamExercicio2);
 
  return 0;
 }
